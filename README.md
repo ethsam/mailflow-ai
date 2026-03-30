@@ -252,6 +252,65 @@ The tool makes these connections and nothing else:
 
 No analytics. No tracking. No third-party services.
 
+## Cron + Webhook
+
+The included `cron.js` script checks for new unread emails and optionally sends a webhook notification.
+
+### How it works
+
+1. Checks for unread emails since last run
+2. If new emails are found:
+   - Logs summary to console
+   - Sends webhook notification (if `WEBHOOK_URL` is configured)
+3. Saves last check timestamp to `logs/last-check.json`
+
+**It never modifies emails** — read-only operation.
+
+### Setup
+
+Add to your crontab to run every hour:
+
+```bash
+0 * * * * cd /path/to/mailflow-ai && node cron.js >> logs/cron.log 2>&1
+```
+
+Or manually:
+
+```bash
+node cron.js
+```
+
+### Webhook payload
+
+When new emails are detected and `WEBHOOK_URL` is configured, the cron sends:
+
+```json
+{
+  "type": "new_emails",
+  "count": 2,
+  "timestamp": "2026-03-30T14:30:00.000Z",
+  "account": "you@example.com",
+  "emails": [
+    {
+      "uid": 245,
+      "from": "sender@example.com",
+      "fromName": "John Doe",
+      "subject": "Important update",
+      "date": "2026-03-30T10:15:00.000Z"
+    }
+  ]
+}
+```
+
+Use this to trigger:
+- AI agent processing (OpenClaw, n8n, Zapier)
+- Slack/Discord notifications
+- Custom automation workflows
+
+**Example webhook endpoint:** `http://100.69.74.34:3200/handle-emails`
+
+Leave `WEBHOOK_URL` empty in `.env` to disable webhook notifications.
+
 ## Tests
 
 ```bash

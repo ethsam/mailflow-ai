@@ -43,21 +43,29 @@ async function checkNewEmails() {
         const summary = emails.map((e) => ({
           uid: e.uid,
           from: e.from?.[0]?.address,
+          fromName: e.from?.[0]?.name,
           subject: e.subject,
           date: e.date,
         }));
 
         try {
-          await fetch(WEBHOOK_URL, {
+          const response = await fetch(WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               type: 'new_emails',
               count: emails.length,
+              timestamp: now.toISOString(),
+              account: process.env.EMAIL_USER,
               emails: summary,
             }),
           });
-          console.log('Notification sent to webhook.');
+          
+          if (response.ok) {
+            console.log(`Webhook notification sent (${response.status}).`);
+          } else {
+            console.error(`Webhook returned ${response.status}: ${await response.text()}`);
+          }
         } catch (err) {
           console.error('Webhook notification failed:', err.message);
         }
