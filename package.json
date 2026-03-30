@@ -1,0 +1,49 @@
+{
+  "name": "mailflow-ai",
+  "version": "1.0.0",
+  "description": "Node.js email client (IMAP/SMTP) designed for autonomous AI agents to manage email accounts independently",
+  "main": "src/cli.js",
+  "bin": {
+    "mailflow": "src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js serve",
+    "cli": "node src/cli.js",
+    "cron": "node cron.js",
+    "test": "node --test",
+    "dev": "node --watch src/cli.js serve"
+  },
+  "keywords": [
+    "email",
+    "imap",
+    "smtp",
+    "ai",
+    "agent",
+    "automation",
+    "bot",
+    "nodemailer",
+    "gmail"
+  ],
+  "author": "Samuel ETHEVE <setheve@viceversa.re> (https://ethsam.fr)",
+  "license": "MIT",
+  "homepage": "https://github.com/ethsam/mailflow-ai",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ethsam/mailflow-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ethsam/mailflow-ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "commander": "^14.0.3",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "imapflow": "^1.2.18",
+    "mailparser": "^3.9.6",
+    "nodemailer": "^8.0.4"
+  }
+}
