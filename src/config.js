@@ -18,6 +18,7 @@ module.exports = {
     port: parseInt(process.env.API_PORT || '3100'),
   },
   dryRun: process.env.DRY_RUN !== 'false',
+  agentWarning: process.env.AGENT_WARNING !== 'false',
   paths: {
     signature: path.join(__dirname, '..', 'templates', 'signature.html'),
     sentLog: path.join(__dirname, '..', 'logs', 'sent.json'),
